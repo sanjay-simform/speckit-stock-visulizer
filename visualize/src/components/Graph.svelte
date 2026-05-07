@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Chart, registerables } from 'chart.js';
-  import { onMount } from 'svelte';
-  import type { TrackerUI } from '../types.js';
+  import { Chart, registerables } from "chart.js";
+  import { onMount } from "svelte";
+  import type { TrackerUI } from "../types.js";
 
   Chart.register(...registerables);
 
@@ -20,7 +20,7 @@
   function initChart() {
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const data = tracker.history.map((value, index) => ({
@@ -29,15 +29,15 @@
     }));
 
     chart = new Chart(ctx, {
-      type: 'line',
+      type: "line",
       data: {
         labels: data.map((_, i) => i),
         datasets: [
           {
             label: tracker.symbol,
-            data: data.map(d => d.y),
-            borderColor: 'rgb(34, 197, 94)',
-            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+            data: data.map((d) => d.y),
+            borderColor: "rgb(34, 197, 94)",
+            backgroundColor: "rgba(34, 197, 94, 0.1)",
             tension: 0.3,
             fill: true,
             pointRadius: 0,
@@ -56,8 +56,8 @@
         scales: {
           y: {
             beginAtZero: false,
-            grid: { color: 'rgba(100, 116, 139, 0.2)' },
-            ticks: { color: 'rgb(148, 163, 184)' },
+            grid: { color: "rgba(100, 116, 139, 0.2)" },
+            ticks: { color: "rgb(148, 163, 184)" },
           },
           x: {
             display: false,
@@ -76,13 +76,14 @@
 
     // Update color based on latest delta
     const latestDelta = tracker.currentValue - tracker.previousValue;
-    const color = latestDelta >= 0 ? 'rgb(34, 197, 94)' : 'rgb(239, 68, 68)';
-    const bgColor = latestDelta >= 0 ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)';
+    const color = latestDelta >= 0 ? "rgb(34, 197, 94)" : "rgb(239, 68, 68)";
+    const bgColor =
+      latestDelta >= 0 ? "rgba(34, 197, 94, 0.1)" : "rgba(239, 68, 68, 0.1)";
 
     chart.data.datasets[0].borderColor = color;
     chart.data.datasets[0].backgroundColor = bgColor;
 
-    chart.update('none');
+    chart.update("none");
   }
 
   $: if (chart && tracker) {

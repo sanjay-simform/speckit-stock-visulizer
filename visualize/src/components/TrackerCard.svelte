@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Graph from './Graph.svelte';
-  import type { TrackerUI } from '../types.js';
+  import Graph from "./Graph.svelte";
+  import type { TrackerUI } from "../types.js";
 
   export let tracker: TrackerUI;
   export let onPause: () => void;
@@ -9,11 +9,13 @@
 
   $: delta = tracker.currentValue - tracker.previousValue;
   $: isUp = delta >= 0;
-  $: colorClass = isUp ? 'text-green-400' : 'text-red-400';
-  $: arrowIcon = isUp ? '▲' : '▼';
+  $: colorClass = isUp ? "text-green-400" : "text-red-400";
+  $: arrowIcon = isUp ? "▲" : "▼";
 </script>
 
-<div class="bg-slate-900 border border-slate-800 rounded-lg p-4 hover:border-slate-700 transition-colors">
+<div
+  class="bg-slate-900 border border-slate-800 rounded-lg p-4 hover:border-slate-700 transition-colors"
+>
   <!-- Header -->
   <div class="flex items-center justify-between mb-4">
     <div class="flex-1">
@@ -24,9 +26,11 @@
       <div class={`text-2xl font-bold ${colorClass}`}>
         ${tracker.currentValue.toFixed(2)}
       </div>
-      <div class={`text-sm font-semibold ${colorClass} flex items-center justify-end gap-1`}>
+      <div
+        class={`text-sm font-semibold ${colorClass} flex items-center justify-end gap-1`}
+      >
         {arrowIcon}
-        {delta >= 0 ? '+' : ''}{delta.toFixed(2)}
+        {delta >= 0 ? "+" : ""}{delta.toFixed(2)}
       </div>
     </div>
   </div>

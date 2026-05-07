@@ -1,40 +1,40 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
 
-  let symbol = '';
+  let symbol = "";
   let threshold = 30;
-  let error = '';
+  let error = "";
 
   function handleSubmit() {
-    error = '';
+    error = "";
 
     // Validate symbol
     if (!symbol || symbol.trim().length === 0) {
-      error = 'Symbol cannot be empty';
+      error = "Symbol cannot be empty";
       return;
     }
 
     // Validate threshold
     if (threshold < 0 || threshold > 100) {
-      error = 'Threshold must be between 0 and 100';
+      error = "Threshold must be between 0 and 100";
       return;
     }
 
-    dispatch('create', {
+    dispatch("create", {
       symbol: symbol.toUpperCase(),
       threshold: parseInt(String(threshold)),
     });
 
-    symbol = '';
+    symbol = "";
     threshold = 30;
   }
 </script>
 
 <div class="bg-slate-900 border border-slate-800 rounded-lg p-6">
   <h2 class="text-lg font-semibold text-cyan-400 mb-4">Create New Tracker</h2>
-  
+
   <form on:submit|preventDefault={handleSubmit} class="space-y-4">
     <div>
       <label for="symbol" class="block text-sm font-medium text-slate-300 mb-2">
@@ -51,7 +51,10 @@
     </div>
 
     <div>
-      <label for="threshold" class="block text-sm font-medium text-slate-300 mb-2">
+      <label
+        for="threshold"
+        class="block text-sm font-medium text-slate-300 mb-2"
+      >
         Volatility Threshold: {threshold}%
       </label>
       <input
@@ -63,7 +66,9 @@
         step="5"
         class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
       />
-      <div class="text-xs text-slate-400 mt-1">Lower = more stable, Higher = more volatile</div>
+      <div class="text-xs text-slate-400 mt-1">
+        Lower = more stable, Higher = more volatile
+      </div>
     </div>
 
     {#if error}

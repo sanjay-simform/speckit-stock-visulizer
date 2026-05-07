@@ -21,5 +21,5 @@ export interface TrackerUI {
 }
 
 export interface ConnectionStatus {
-  status: 'CONNECTED' | 'DISCONNECTED' | 'RECONNECTING';
+  status: "CONNECTED" | "DISCONNECTED" | "RECONNECTING";
 }

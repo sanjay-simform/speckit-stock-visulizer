@@ -29,7 +29,7 @@ export interface Point {
 
 // WebSocket message contracts
 export interface CreateTrackerMessage {
-  type: 'CREATE_TRACKER';
+  type: "CREATE_TRACKER";
   payload: {
     symbol: string;
     threshold: number;
@@ -37,45 +37,52 @@ export interface CreateTrackerMessage {
 }
 
 export interface TickMessage {
-  type: 'TICK';
+  type: "TICK";
   payload: Tick;
 }
 
 export interface PauseTrackerMessage {
-  type: 'PAUSE_TRACKER';
+  type: "PAUSE_TRACKER";
   payload: {
     trackerId: string;
   };
 }
 
 export interface ResumeTrackerMessage {
-  type: 'RESUME_TRACKER';
+  type: "RESUME_TRACKER";
   payload: {
     trackerId: string;
   };
 }
 
 export interface RemoveTrackerMessage {
-  type: 'REMOVE_TRACKER';
+  type: "REMOVE_TRACKER";
   payload: {
     trackerId: string;
   };
 }
 
 export interface ConnectionStatusMessage {
-  type: 'CONNECTION_STATUS';
+  type: "CONNECTION_STATUS";
   payload: {
-    status: 'CONNECTED' | 'DISCONNECTED' | 'RECONNECTING';
+    status: "CONNECTED" | "DISCONNECTED" | "RECONNECTING";
   };
 }
 
 export interface ErrorMessage {
-  type: 'ERROR';
+  type: "ERROR";
   payload: {
     code: string;
     message: string;
   };
 }
 
-export type ServerMessage = TickMessage | ConnectionStatusMessage | ErrorMessage;
-export type ClientMessage = CreateTrackerMessage | PauseTrackerMessage | ResumeTrackerMessage | RemoveTrackerMessage;
+export type ServerMessage =
+  | TickMessage
+  | ConnectionStatusMessage
+  | ErrorMessage;
+export type ClientMessage =
+  | CreateTrackerMessage
+  | PauseTrackerMessage
+  | ResumeTrackerMessage
+  | RemoveTrackerMessage;

@@ -1,5 +1,5 @@
-import { randomUUID } from 'crypto';
-import { TrackerState, Tick } from './types.js';
+import { randomUUID } from "crypto";
+import { TrackerState, Tick } from "./types.js";
 
 const BUFFER_SIZE = 60;
 const INITIAL_PRICE = 100;
@@ -32,7 +32,9 @@ export class SimulationEngine {
 
   createTracker(symbol: string, threshold: number): TrackerState {
     // Check for duplicate
-    const exists = Array.from(this.trackers.values()).some(t => t.symbol === symbol);
+    const exists = Array.from(this.trackers.values()).some(
+      (t) => t.symbol === symbol,
+    );
     if (exists) {
       throw new Error(`Symbol already tracked`);
     }
@@ -114,7 +116,7 @@ export class SimulationEngine {
         timestamp: Date.now(),
       };
 
-      this.tickCallbacks.forEach(callback => callback(tick));
+      this.tickCallbacks.forEach((callback) => callback(tick));
     }
   }
 }

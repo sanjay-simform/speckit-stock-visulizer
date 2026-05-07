@@ -1,7 +1,7 @@
-import { writable, readable, derived } from 'svelte/store';
-import type { Tick, TrackerUI, ConnectionStatus } from './types.js';
+import { writable, readable, derived } from "svelte/store";
+import type { Tick, TrackerUI, ConnectionStatus } from "./types.js";
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080';
+const WS_URL = import.meta.env.VITE_WS_URL || "ws://localhost:8080";
 const RECONNECT_DELAY = 1000;
 const MAX_RECONNECT_DELAY = 30000;
 
@@ -11,7 +11,7 @@ const MAX_RECONNECT_DELAY = 30000;
  */
 function createWebSocketStore() {
   const { subscribe, set, update } = writable<ConnectionStatus>({
-    status: 'DISCONNECTED',
+    status: "DISCONNECTED",
   });
 
   let ws: WebSocket | null = null;
@@ -23,34 +23,34 @@ function createWebSocketStore() {
   function connect() {
     if (ws?.readyState === WebSocket.OPEN) return;
 
-    set({ status: 'RECONNECTING' });
+    set({ status: "RECONNECTING" });
 
     ws = new WebSocket(WS_URL);
 
     ws.onopen = () => {
-      set({ status: 'CONNECTED' });
+      set({ status: "CONNECTED" });
       reconnectDelay = RECONNECT_DELAY;
-      console.log('[WS] Connected');
+      console.log("[WS] Connected");
     };
 
     ws.onmessage = (event) => {
       try {
         const message = JSON.parse(event.data);
-        messageHandlers.forEach(handler => handler(message));
+        messageHandlers.forEach((handler) => handler(message));
       } catch (error) {
-        console.error('[WS] Message parse error:', error);
+        console.error("[WS] Message parse error:", error);
       }
     };
 
     ws.onerror = (error) => {
-      console.error('[WS] Error:', error);
-      set({ status: 'DISCONNECTED' });
+      console.error("[WS] Error:", error);
+      set({ status: "DISCONNECTED" });
     };
 
     ws.onclose = () => {
-      set({ status: 'DISCONNECTED' });
-      console.log('[WS] Disconnected, reconnecting...');
-      
+      set({ status: "DISCONNECTED" });
+      console.log("[WS] Disconnected, reconnecting...");
+
       // Exponential backoff reconnection
       reconnectTimeout = setTimeout(() => {
         reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
@@ -63,7 +63,7 @@ function createWebSocketStore() {
     if (ws?.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify(message));
     } else {
-      console.warn('[WS] Cannot send: connection not open');
+      console.warn("[WS] Cannot send: connection not open");
     }
   }
 
@@ -80,7 +80,7 @@ function createWebSocketStore() {
       ws.close();
       ws = null;
     }
-    set({ status: 'DISCONNECTED' });
+    set({ status: "DISCONNECTED" });
   }
 
   // Auto-connect on initialization
@@ -98,10 +98,12 @@ function createWebSocketStore() {
  * Tracker state management
  */
 function createTrackerStore() {
-  const { subscribe, set, update } = writable<Map<string, TrackerUI>>(new Map());
+  const { subscribe, set, update } = writable<Map<string, TrackerUI>>(
+    new Map(),
+  );
 
   function addTracker(tracker: TrackerUI) {
-    update(trackers => {
+    update((trackers) => {
       const newMap = new Map(trackers);
       newMap.set(tracker.id, tracker);
       return newMap;
@@ -109,9 +111,9 @@ function createTrackerStore() {
   }
 
   function updateTracker(tick: Tick) {
-    update(trackers => {
+    update((trackers) => {
       const tracker = trackers.get(tick.symbol);
-      
+
       if (!tracker) {
         // New tracker from server
         const newTracker: TrackerUI = {
@@ -131,7 +133,7 @@ function createTrackerStore() {
       updated.previousValue = updated.currentValue;
       updated.currentValue = tick.value;
       updated.history.push(tick.value);
-      
+
       // Maintain fixed buffer
       if (updated.history.length > 60) {
         updated.history.shift();
@@ -143,7 +145,7 @@ function createTrackerStore() {
   }
 
   function removeTracker(trackerId: string) {
-    update(trackers => {
+    update((trackers) => {
       const newMap = new Map(trackers);
       newMap.delete(trackerId);
       return newMap;
@@ -151,8 +153,10 @@ function createTrackerStore() {
   }
 
   function pauseTracker(trackerId: string) {
-    update(trackers => {
-      const tracker = Array.from(trackers.values()).find(t => t.id === trackerId);
+    update((trackers) => {
+      const tracker = Array.from(trackers.values()).find(
+        (t) => t.id === trackerId,
+      );
       if (tracker) {
         tracker.paused = true;
         trackers.set(tracker.symbol, tracker);
@@ -162,8 +166,10 @@ function createTrackerStore() {
   }
 
   function resumeTracker(trackerId: string) {
-    update(trackers => {
-      const tracker = Array.from(trackers.values()).find(t => t.id === trackerId);
+    update((trackers) => {
+      const tracker = Array.from(trackers.values()).find(
+        (t) => t.id === trackerId,
+      );
       if (tracker) {
         tracker.paused = false;
         trackers.set(tracker.symbol, tracker);

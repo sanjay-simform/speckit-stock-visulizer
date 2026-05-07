@@ -10,7 +10,11 @@
     "start": "node dist/server.js",
     "test": "vitest"
   },
-  "keywords": ["realtime", "websocket", "stock-tracker"],
+  "keywords": [
+    "realtime",
+    "websocket",
+    "stock-tracker"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
