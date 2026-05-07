@@ -9,11 +9,12 @@
 
 PulseTick enables users to create and monitor simulated stock-like realtime trackers that continuously update their values and display live-updating graphs. Each tracker maintains independent state with configurable volatility, providing a foundation for understanding realtime architecture patterns and WebSocket-driven updates.
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Create and Configure Tracker (Priority: P1)
 
 A user opens the dashboard and creates a new realtime tracker by:
+
 1. Entering a symbol name (e.g., TATA, INFY, BTC, AAPL)
 2. Setting a volatility threshold (0-100) to control price movement magnitude
 3. Clicking "Add Tracker" to create the tracker card
@@ -36,6 +37,7 @@ The tracker immediately appears on the dashboard with a starting simulated value
 ### User Story 2 - Monitor Live Value Changes with Visual Feedback (Priority: P1)
 
 For each active tracker card, users see:
+
 - Current simulated value displayed prominently
 - Direction indicator (up arrow / down arrow) showing if value increased or decreased since last update
 - Green color highlighting when value moved upward
@@ -60,6 +62,7 @@ Visual feedback is immediate (within 16ms) so updates appear instantaneous.
 ### User Story 3 - View Live Updating Graph History (Priority: P1)
 
 Each tracker card displays a live-updating graph that:
+
 - Shows X-axis as time (right-to-left scroll effect as time advances)
 - Shows Y-axis as value price points
 - Maintains limited history of recent values (e.g., last 60 points)
@@ -85,6 +88,7 @@ Graph rendering remains smooth even with multiple active trackers on screen.
 ### User Story 4 - Control Tracker Playback (Priority: P2)
 
 Each tracker card includes:
+
 - **Pause Button**: Clicking pauses realtime updates (simulation stops, value freezes)
 - **Resume Button**: Clicking resumes updates from the frozen point
 - **Remove Button**: Clicking removes tracker from dashboard
@@ -112,7 +116,7 @@ Paused trackers persist their state; resuming continues from where they were pau
 - What happens if user creates 50+ trackers? → System should handle without degrading (performance requirement)
 - What happens when tracker has been running for 1 hour? → Graph maintains only recent 60 points; old history is discarded (fixed buffer)
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -123,7 +127,7 @@ Paused trackers persist their state; resuming continues from where they were pau
 - **FR-005**: System MUST render a live-updating graph showing price history (most recent 60 points) that scrolls horizontally as new points arrive
 - **FR-006**: System MUST provide pause/resume functionality for individual trackers
 - **FR-007**: System MUST provide remove functionality to delete trackers from dashboard
-- **FR-008**: System MUST maintain independent state for each tracker (paused state, historical data, volatility threshold) 
+- **FR-008**: System MUST maintain independent state for each tracker (paused state, historical data, volatility threshold)
 - **FR-009**: System MUST support multiple simultaneous connected clients receiving realtime updates
 - **FR-010**: System MUST update all tracker displays within 16ms of receiving data (60 FPS target)
 - **FR-011**: System MUST show WebSocket connection status to user (connected/disconnecting/disconnected); system MUST automatically attempt to reconnect with exponential backoff (no manual action required)
@@ -152,7 +156,7 @@ Paused trackers persist their state; resuming continues from where they were pau
   - `y` (value, used for Y-axis)
   - `delta` (for determining color: green if positive, red if negative)
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
@@ -184,6 +188,7 @@ Paused trackers persist their state; resuming continues from where they were pau
 ## Clarifications Resolved
 
 Clarifications session 2026-05-07:
+
 - **Q1: Duplicate Symbol Behavior** → **A: Prevent duplicate** (system rejects if symbol already exists with error message "Symbol already tracked")
 - **Q2: Disconnect Behavior** → **A: Auto-reconnect** (silent exponential backoff with status indicator showing "Reconnecting..." state)
 - **Q3: Initial Price** → **A: Fixed value 100** (all trackers start at price 100 for predictability)
